@@ -22,9 +22,7 @@ public class BuildingService {
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<Building> buildingResponseEntity = template.exchange(url, HttpMethod.GET, httpEntity,
                 Building.class, id);
-        Building building = buildingResponseEntity.getBody();
-        System.out.println(building);
 
-        return building;
+        return buildingResponseEntity.getBody();
     }
 }
