@@ -2,10 +2,7 @@ package com.kontakt.kontaktproxy.service;
 
 import com.kontakt.kontaktproxy.api.model.Building;
 import io.github.cdimascio.dotenv.Dotenv;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
@@ -31,14 +28,14 @@ public class BuildingService {
         } catch (Exception e) {
             int statusCode = -1;
             String responseBody = "";
-            String contentType = "";
+            MediaType contentType = MediaType.ALL;
 
             if (e instanceof HttpStatusCodeException httpException) {
                 statusCode = httpException.getStatusCode().value();
                 responseBody = httpException.getResponseBodyAsString();
 
                 HttpHeaders responseHeaders = httpException.getResponseHeaders();
-                contentType = (responseHeaders != null) ? responseHeaders.getFirst(HttpHeaders.CONTENT_TYPE) : "";
+                contentType = (responseHeaders != null) ? responseHeaders.getContentType() : MediaType.ALL;
             }
 
             throw new BuildingServiceException(e.getMessage(), statusCode, responseBody, contentType);

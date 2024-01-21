@@ -1,11 +1,13 @@
 package com.kontakt.kontaktproxy.service;
 
+import org.springframework.http.MediaType;
+
 public class BuildingServiceException extends RuntimeException {
     private final int statusCode;
     private final String responseBody;
-    private final String contentType;
+    private final MediaType contentType;
 
-    public BuildingServiceException(String message, int statusCode, String responseBody, String contentType) {
+    public BuildingServiceException(String message, int statusCode, String responseBody, MediaType contentType) {
         super(message);
         this.statusCode = statusCode;
         this.responseBody = responseBody;
@@ -20,7 +22,7 @@ public class BuildingServiceException extends RuntimeException {
         return responseBody;
     }
 
-    public String getContentType() {
+    public MediaType getContentType() {
         return contentType;
     }
 }

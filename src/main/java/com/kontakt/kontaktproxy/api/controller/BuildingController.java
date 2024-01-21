@@ -29,10 +29,10 @@ public class BuildingController {
         } catch (BuildingServiceException e) {
             int statusCode = e.getStatusCode();
             String responseBody = e.getResponseBody();
-            String contentType = e.getContentType();
+            MediaType contentType = e.getContentType();
 
             return ResponseEntity.status(statusCode)
-                    .contentType(MediaType.valueOf(contentType))
+                    .contentType(contentType)
                     .body(responseBody);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
