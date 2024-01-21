@@ -1,11 +1,13 @@
 package com.kontakt.kontaktproxy.api.model;
 
+import java.util.Map;
+
 public class Floor {
     private int id;
     private int level;
     private String name;
-    private Properties properties;
-    private ImageXyGeojson imageXyGeojson;
+    private Map<String, Object> properties;
+    private Map<String, Object> imageXyGeojson;
 
     public int getId() {
         return id;
@@ -31,19 +33,19 @@ public class Floor {
         this.name = name;
     }
 
-    public Properties getProperties() {
+    public Map<String, Object> getProperties() {
         return properties;
     }
 
-    public void setProperties(Properties properties) {
+    public void setProperties(Map<String, Object> properties) {
         this.properties = properties;
     }
 
-    public ImageXyGeojson getImageXyGeojson() {
+    public Map<String, Object> getImageXyGeojson() {
         return imageXyGeojson;
     }
 
-    public void setImageXyGeojson(ImageXyGeojson imageXyGeojson) {
+    public void setImageXyGeojson(Map<String, Object> imageXyGeojson) {
         this.imageXyGeojson = imageXyGeojson;
     }
 }
