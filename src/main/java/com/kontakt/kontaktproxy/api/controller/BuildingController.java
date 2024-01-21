@@ -16,7 +16,7 @@ public class BuildingController {
         this.buildingService = buildingService;
     }
     @GetMapping("/building/{id}")
-    public Building getBuilding(@PathVariable Integer id) {
+    public Building getBuilding(@PathVariable int id) {
         return buildingService.getBuilding(id);
     }
 }

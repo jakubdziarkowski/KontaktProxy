@@ -5,6 +5,7 @@ public class Floor {
     private int level;
     private String name;
     private Properties properties;
+    private ImageXyGeojson imageXyGeojson;
 
     public int getId() {
         return id;
@@ -36,5 +37,13 @@ public class Floor {
 
     public void setProperties(Properties properties) {
         this.properties = properties;
+    }
+
+    public ImageXyGeojson getImageXyGeojson() {
+        return imageXyGeojson;
+    }
+
+    public void setImageXyGeojson(ImageXyGeojson imageXyGeojson) {
+        this.imageXyGeojson = imageXyGeojson;
     }
 }
