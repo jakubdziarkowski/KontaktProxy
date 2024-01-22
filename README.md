@@ -1,9 +1,78 @@
-# Proxy API for Kontakt.io Building Information
+# KontaktProxy
 
-This project provides a proxy API implemented in Java using the Spring framework. The rate limiter is implemented using Bucket4j, and java-dotenv is used for storing secrets, such as the Kontakt.io API-Key.
+## How to Run:
+
+Java version 17 or higher is required. You can check your Java version using the following command:
+
+```bash
+java --version
+```
+
+Some of the commands below may require additional permissions (sudo).
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/dziaro44/KontaktProxy
+cd KontaktProxy/
+```
+
+2. Create a `.env` file and set your Kontakt API key:
+
+```bash
+echo 'KONTAKT_API_KEY=your_api_key' > .env
+```
+
+3. Make the Gradle wrapper executable:
+
+```bash
+chmod +x gradlew
+```
+
+4. Build and run the application:
+
+```bash
+./gradlew build
+./gradlew bootRun
+```
+
+This will start the application on localhost:8080. You can make a GET request to:
+
+```bash
+localhost:8080/building/{id}
+```
+
+To run tests:
+
+```bash
+./gradlew test
+```
+
+To run performance tests, you need to install k6 and customize the testing script (`src/test/js/basic_performance_test.js`). Make sure to change the building ID in the script to ensure the API returns an actual object.
+
+For the performance test, it's advisable to adjust the rate limiter settings, for example, set `rate.limiter.requests-per-second=5000` in `src/main/resources/application.properties`, unless the intention is to observe its operation during the performance tests.
+
+Install k6:
+
+```bash
+snap install k6
+```
+
+Run performance tests:
+
+```bash
+./gradlew performanceTest
+```
+
+If running through Gradle does not work, you can run k6 directly:
+
+```bash
+k6 run src/test/js/basic_performance_test.js
+```
 
 ## Project Overview
 
+This project provides a proxy API implemented in Java using the Spring framework. The rate limiter is implemented using Bucket4j, and java-dotenv is used for storing secrets, such as the Kontakt.io API-Key.
 In addition to the fields specified in the task description, I decided to include building ID, floor ID, and floor name as they are essential and commonly used fields. If these fields need to be hidden from the proxy API client intentionally, they can be easily excluded from the respective model classes.
 
 I defined the `id` in the path parameter of our request as a String, following the documentation [here](https://developer.kontakt.io/docs/dev-ctr-loc-occ-api/b83219d93ef3c-retrieve-a-building), even though the response `id` is of type number. This results in a 404 error for `GET /building/some_string` instead of a 400 error.
@@ -15,9 +84,7 @@ private Map<String, Object> imageXyGeojson;
 ```
 This allows these objects to be returned in the same format as they come from the original API. This approach is not only convenient but also necessary due to inconsistencies between the documentation and the actual API response.
 
-# README.md
-
-## Response Examples
+## Inconsistency Examples
 
 ### Example 1
 
@@ -164,11 +231,11 @@ vus............................: 100    min=100      max=100
 vus_max........................: 100    min=100      max=100
 ```
 
-## Thread Safety and Scalability
+### Thread Safety and Scalability
 
 The proxy service is implemented as a Spring Boot application with an embedded Tomcat server. Both Spring and Tomcat are designed to handle multi-threading efficiently. Tomcat, by default, uses a pool of worker threads to process incoming requests.
 
-Additionally, a rate limiter has been implemented based on IP addresses to control the request rate. If rate limiting is not required, it can be easily removed by eliminating the usage of `ipRateLimiter.allowRequest(ipAddress)` in the `BuildingController`. Rate limiter settings can be modified in the `src\main\resources\application.properties` file.
+Additionally, a rate limiter has been implemented based on IP addresses to control the request rate. If rate limiting is not required, it can be easily removed by eliminating the usage of `ipRateLimiter.allowRequest(ipAddress)` in the `BuildingController`. Rate limiter settings can be modified in the `src/main/resources/application.properties` file.
 
 It's important to note that the current implementation of the rate limiter relies on `ConcurrentHashMap` for thread safety. While effective, it is not a scalable solution, and consideration should be given to using a distributed cache like Redis for improved scalability in a production environment. Configuration for the rate limiter is available in the `application.properties` file, with the current setting:
 
@@ -179,7 +246,7 @@ rate.limiter.requests-per-second=100
 
 ### 2. Implement a comprehensive set of end-to-end tests that can be executed using build tools such as Maven or Gradle.
 
-Multiple unit tests and an integration test for the `BuildingController` and `BuildingService` were implemented. These tests can be executed using `gradle test`. They cover a significant portion of the application's logic and can be considered end-to-end tests. However, tests involving Kontakt.io API itself were not implemented as they would require actual API calls rather than mocks.
+Multiple unit tests and an integration test for the `BuildingController` and `BuildingService` were implemented. These tests can be executed using `./gradlew test`. They cover a significant portion of the application's logic and can be considered end-to-end tests. However, tests involving Kontakt.io API itself were not implemented as they would require actual API calls rather than mocks.
 
 ### 3. Emphasize good design principles and maintain high code quality.
 
