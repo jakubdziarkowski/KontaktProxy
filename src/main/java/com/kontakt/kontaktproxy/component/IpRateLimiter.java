@@ -1,4 +1,4 @@
-package com.kontakt.kontaktproxy.service;
+package com.kontakt.kontaktproxy.component;
 
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
