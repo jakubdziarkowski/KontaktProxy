@@ -26,3 +26,7 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+tasks.register('performanceTest', Exec) {
+    commandLine 'k6', 'run', 'src/test/js/basic_performance_test.js'
+}
