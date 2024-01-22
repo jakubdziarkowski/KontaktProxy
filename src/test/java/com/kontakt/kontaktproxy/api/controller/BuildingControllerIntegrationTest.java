@@ -27,7 +27,7 @@ public class BuildingControllerIntegrationTest {
 
     @Test
     public void testGetBuilding() throws Exception {
-        Building building = new Building(/* Set building properties */);
+        Building building = new Building();
         when(buildingService.getBuilding("1")).thenReturn(building);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/building/1")
