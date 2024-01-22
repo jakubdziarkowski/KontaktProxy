@@ -1,9 +1,9 @@
 package com.kontakt.kontaktproxy.api.controller;
 
 import com.kontakt.kontaktproxy.api.model.Building;
+import com.kontakt.kontaktproxy.component.IpRateLimiter;
 import com.kontakt.kontaktproxy.service.BuildingService;
 import com.kontakt.kontaktproxy.service.BuildingServiceException;
-import com.kontakt.kontaktproxy.component.IpRateLimiter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
