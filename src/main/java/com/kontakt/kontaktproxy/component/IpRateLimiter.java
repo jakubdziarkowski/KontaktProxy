@@ -24,8 +24,6 @@ public class IpRateLimiter {
         Bucket bucket = rateLimits.get(ipAddress);
         ConsumptionProbe probe = bucket.tryConsumeAndReturnRemaining(1);
 
-        System.out.println(ipAddress + " - " + probe.getRemainingTokens());
-
         return probe.isConsumed();
     }
 

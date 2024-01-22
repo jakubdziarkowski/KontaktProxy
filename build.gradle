@@ -23,6 +23,10 @@ dependencies {
     implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
 }
 
-tasks.named('test') {
+test {
     useJUnitPlatform()
+}
+
+tasks.register('performanceTest', Exec) {
+    commandLine 'k6', 'run', 'src/test/js/basic_performance_test.js'
 }
