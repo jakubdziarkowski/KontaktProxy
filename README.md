@@ -1,5 +1,19 @@
 # KontaktProxy
 
+## Project Overview
+
+This project was created as part of a recruitment task. It provides a proxy API implemented in Java using the Spring framework. The rate limiter is implemented using Bucket4j, and java-dotenv is used for storing secrets, such as the Kontakt.io API-Key.
+In addition to the fields specified in the task description, I decided to include building ID, floor ID, and floor name as they are essential and commonly used fields. If these fields need to be hidden from the proxy API client intentionally, they can be easily excluded from the respective model classes.
+
+I defined the `id` in the path parameter of our request as a String, following the documentation [here](https://developer.kontakt.io/docs/dev-ctr-loc-occ-api/b83219d93ef3c-retrieve-a-building), even though the response `id` is of type number. This results in a 404 error for `GET /building/some_string` instead of a 400 error.
+
+Attributes `properties` and `imageXyGeojson` in the `Floor` class are defined as follows:
+```java
+private Map<String, Object> properties;
+private Map<String, Object> imageXyGeojson;
+```
+This allows these objects to be returned in the same format as they come from the original API. This approach is not only convenient but also necessary due to inconsistencies between the documentation and the actual API response.
+
 ## How to Run:
 
 Java version 17 or higher is required. You can check your Java version using the following command:
@@ -69,20 +83,6 @@ If running through Gradle does not work, you can run k6 directly:
 ```bash
 k6 run src/test/js/basic_performance_test.js
 ```
-
-## Project Overview
-
-This project provides a proxy API implemented in Java using the Spring framework. The rate limiter is implemented using Bucket4j, and java-dotenv is used for storing secrets, such as the Kontakt.io API-Key.
-In addition to the fields specified in the task description, I decided to include building ID, floor ID, and floor name as they are essential and commonly used fields. If these fields need to be hidden from the proxy API client intentionally, they can be easily excluded from the respective model classes.
-
-I defined the `id` in the path parameter of our request as a String, following the documentation [here](https://developer.kontakt.io/docs/dev-ctr-loc-occ-api/b83219d93ef3c-retrieve-a-building), even though the response `id` is of type number. This results in a 404 error for `GET /building/some_string` instead of a 400 error.
-
-Attributes `properties` and `imageXyGeojson` in the `Floor` class are defined as follows:
-```java
-private Map<String, Object> properties;
-private Map<String, Object> imageXyGeojson;
-```
-This allows these objects to be returned in the same format as they come from the original API. This approach is not only convenient but also necessary due to inconsistencies between the documentation and the actual API response.
 
 ## Inconsistency Examples
 
